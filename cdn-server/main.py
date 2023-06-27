@@ -18,6 +18,7 @@ to a message bus.
 import sys
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from .routers.content_token import router as CdnRouter
 from .routers.status import router as StatusRouter
@@ -34,6 +35,14 @@ app = FastAPI(
     title='cdn server', description='BYODA CDN server', version='0.0.1',
     debug=True
 )
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*'],
+    allow_credentials=True,
+    allow_methods=['*'],
+    allow_headers=['*'],
+)
+
 app.include_router(CdnRouter)
 app.include_router(StatusRouter)
 
